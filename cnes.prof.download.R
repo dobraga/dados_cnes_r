@@ -1,17 +1,3 @@
-library(webdriver)
-library(rvest)
-library(tidyverse)
-
-temp.dir = tempdir()
-
-pjs <- run_phantomjs()
-
-ses <- Session$new(port = pjs$port)
-
-options(timeout=10*getOption('timeout')) # por conta de SP
-
-# Download arquivos ---- 
-
 cnes.prof.download = function(UF_sel,comp_sel="Atual",ses=NULL,dir = tempdir()){
   
   if(is.null(ses)){stop("FALTA CONEXÃO")}
@@ -86,17 +72,3 @@ cnes.prof.download = function(UF_sel,comp_sel="Atual",ses=NULL,dir = tempdir()){
   
   return(b)
 }
-
-
-# Baixando todos arquivos ====
-
-
-ufs = c('ACRE','ALAGOAS','AMAPA','AMAZONAS','BAHIA','CEARA','DISTRITO FEDERAL',
-        'ESPIRITO SANTO','GOIAS','MARANHAO','MATO GROSSO','MATO GROSSO DO SUL',
-        'MINAS GERAIS','PARA','PARAIBA','PARANA','PERNAMBUCO','PIAUI','RIO DE JANEIRO',
-        'RIO GRANDE DO NORTE','RIO GRANDE DO SUL','RONDONIA','RORAIMA','SANTA CATARINA',
-        'SAO PAULO','SERGIPE','TOCANTINS')
-
-arqs = ufs %>% 
-  lapply(function(x) cnes.prof.download(UF_sel=x,ses=ses)) %>% 
-  unlist()
