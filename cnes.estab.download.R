@@ -19,17 +19,16 @@ cnes.estab.download = function(UF_sel,comp_sel="Atual",ses=NULL,dir = tempdir())
     stop("ERRO AO SELECIONAR UF")
   }
   
-  comp = ses$getSource() %>% 
-    read_html() %>% 
-    html_nodes(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[2]/div[1]/div/select/option') %>% 
-    html_text() 
-  
-  if(! comp_sel %in% comp){
-    stop("ERRO AO SELECIONAR COMPETÊNCIA")
+  if(comp_sel != "Atual"){
+    comp = ses$getSource() %>% 
+      read_html() %>% 
+      html_nodes(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[2]/div[1]/div/select/option') %>% 
+      html_text() 
+    
+    if(! comp_sel %in% comp){
+      stop("ERRO AO SELECIONAR COMPETÊNCIA")
+    }
   }
-  
-  if(comp_sel == comp[1]){comp_sel=comp[2]}
-  
   
   pos.uf = match(UF_sel,ufs)
   pos.comp = match(comp_sel,comp)
