@@ -21,10 +21,15 @@ arqs.prof = ufs[1:2] %>%
   lapply(function(x) cnes.prof.download(UF_sel=x,ses=ses)) %>% 
   unlist()
 
+prof = arqs.prof %>%
+  map_df(~read_csv2(file = .x,col_types = cols(.default = "c")))
+
 ####################
 # ESTABELECIMENTOS #
 ####################
-arqs.prof = ufs[1:2] %>% 
+arqs.estab = ufs[1:2] %>% 
   lapply(function(x) cnes.estab.download(UF_sel=x,ses=ses)) %>% 
   unlist()
 
+estab = arqs.estab %>%
+  map_df(~read_csv2(file = .x,col_types = cols(.default = "c")))
