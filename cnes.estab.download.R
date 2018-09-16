@@ -1,10 +1,10 @@
-cnes.prof.download = function(UF_sel,comp_sel="Atual",ses=NULL,dir = tempdir()){
+cnes.estab.download = function(UF_sel,comp_sel="Atual",ses=NULL,dir = tempdir()){
   
   if(is.null(ses)){stop("FALTA CONEXÃO")}
   
   UF_sel = stringr::str_to_upper(UF_sel)
   
-  ses$go("http://cnes.datasus.gov.br/pages/profissionais/extracao.jsp")
+  ses$go("http://cnes.datasus.gov.br/pages/estabelecimentos/extracao.jsp")
   
   ufs = "Selecione"
   
@@ -57,7 +57,7 @@ cnes.prof.download = function(UF_sel,comp_sel="Atual",ses=NULL,dir = tempdir()){
       html_attr("href")
   }
   
-  dest = paste(dir,paste0(comp_sel.num,"_prof_",UF_sel,".zip"),sep = "\\")
+  dest = paste(dir,paste0(comp_sel.num,"_estab_",UF_sel,".zip"),sep = "\\")
   
   download.file(link,
                 destfile = dest,
@@ -66,7 +66,7 @@ cnes.prof.download = function(UF_sel,comp_sel="Atual",ses=NULL,dir = tempdir()){
   
   a = unzip(dest,exdir = dir)
   
-  b = paste(dir,paste0(comp_sel.num,"_prof_",UF_sel,".csv"),sep = "\\")
+  b = paste(dir,paste0(comp_sel.num,"_estab_",UF_sel,".csv"),sep = "\\")
   
   invisible(file.rename(a,b))
   
