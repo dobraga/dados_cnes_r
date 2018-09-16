@@ -19,30 +19,31 @@ cnes.estab.download = function(UF_sel,comp_sel="Atual",ses=NULL,dir = tempdir())
     stop("ERRO AO SELECIONAR UF")
   }
   
+  pos.uf = match(UF_sel,ufs)
+  
+  pesq.el = ses$findElements(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[1]/select[1]/option')
+  pesq.el[[pos.uf]]$click()
+  
   if(comp_sel != "Atual"){
     comp = ses$getSource() %>% 
       read_html() %>% 
       html_nodes(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[2]/div[1]/div/select/option') %>% 
       html_text() 
     
+    comp_sel.num = comp_sel %>% 
+      stringr::str_extract_all("[0-9]") %>% 
+      unlist() %>% paste(collapse="") %>% 
+      as.numeric()
+    
+    pos.comp = match(comp_sel,comp)
+    
+    comp.el = ses$findElements(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[2]/div[1]/div/select/option')
+    comp.el[[pos.comp]]$click()
+    
     if(! comp_sel %in% comp){
       stop("ERRO AO SELECIONAR COMPETÊNCIA")
     }
-  }
-  
-  pos.uf = match(UF_sel,ufs)
-  pos.comp = match(comp_sel,comp)
-  
-  comp_sel.num = comp_sel %>% 
-    str_extract_all("[0-9]") %>% 
-    unlist() %>% paste(collapse="") %>% 
-    as.numeric()
-  
-  pesq.el = ses$findElements(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[1]/select[1]/option')
-  pesq.el[[pos.uf]]$click()
-  
-  comp.el = ses$findElements(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[2]/div[1]/div/select/option')
-  comp.el[[pos.comp]]$click()
+  }else{comp_sel.num = "Atual"}
   
   download = ses$findElement(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[2]/div[2]/div/button')
   download$click()

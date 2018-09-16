@@ -35,7 +35,7 @@ cnes.prof.download = function(UF_sel,comp_sel="Atual",ses=NULL,dir = tempdir()){
   pos.comp = match(comp_sel,comp)
   
   comp_sel.num = comp_sel %>% 
-    str_extract_all("[0-9]") %>% 
+    stringr::str_extract_all("[0-9]") %>% 
     unlist() %>% paste(collapse="") %>% 
     as.numeric()
   
