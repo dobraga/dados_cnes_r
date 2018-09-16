@@ -11,7 +11,7 @@ cnes.estab.download = function(UF_sel,comp_sel="Atual",ses=NULL,dir = tempdir())
   while(length(ufs)==1){
     ufs = ses$getSource() %>% 
       read_html() %>% 
-      html_nodes(xpath = '/html/body/div[2]/main/div/div[2]/div/form[2]/div[1]/select[1]/option') %>% 
+      html_nodes(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[1]/select[1]/option') %>% 
       html_text()
   }
   
@@ -21,7 +21,7 @@ cnes.estab.download = function(UF_sel,comp_sel="Atual",ses=NULL,dir = tempdir())
   
   comp = ses$getSource() %>% 
     read_html() %>% 
-    html_nodes(xpath = '/html/body/div[2]/main/div/div[2]/div/form[2]/div[2]/div/div/select/option') %>% 
+    html_nodes(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[2]/div[1]/div/select/option') %>% 
     html_text() 
   
   if(! comp_sel %in% comp){
@@ -39,13 +39,13 @@ cnes.estab.download = function(UF_sel,comp_sel="Atual",ses=NULL,dir = tempdir())
     unlist() %>% paste(collapse="") %>% 
     as.numeric()
   
-  pesq.el = ses$findElements(xpath = '/html/body/div[2]/main/div/div[2]/div/form[2]/div[1]/select[1]/option')
+  pesq.el = ses$findElements(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[1]/select[1]/option')
   pesq.el[[pos.uf]]$click()
   
-  comp.el = ses$findElements(xpath = '/html/body/div[2]/main/div/div[2]/div/form[2]/div[2]/div/div/select/option')
+  comp.el = ses$findElements(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[2]/div[1]/div/select/option')
   comp.el[[pos.comp]]$click()
   
-  download = ses$findElement(xpath = '/html/body/div[2]/main/div/div[2]/div/form[2]/div[2]/div/button')
+  download = ses$findElement(xpath = '/html/body/div[2]/main/div/div[2]/div/form/div[2]/div[2]/div/button')
   download$click()
   
   link = ""
